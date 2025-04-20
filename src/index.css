@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+body {
+  padding: 20px;
+}
+
+.p-datatable table {
+  width: 100%;
+}
+
+.p-datatable .p-column-header {
+  background-color: #f8f9fa;
+}
