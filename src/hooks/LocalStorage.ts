@@ -2,7 +2,7 @@ import { useState } from "react";
 import CryptoJS from "crypto-js";
 
 export const useLocalStorage = <T>(keyName: string, defaultValue: T) => {
-  const secretKey = import.meta.env.REACT_APP_SECRET_KEY;
+  const secretKey = import.meta.env.VITE_SECRET_KEY;
 
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {

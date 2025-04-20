@@ -1,4 +1,5 @@
 // contexts/AuthContext.tsx
+import { loginAPI } from '@/api/authApi';
 import { useLocalStorage } from '@/hooks/LocalStorage';
 import { AuthContextType } from '@/utils/interfaces/Interfaces';
 import React, {
@@ -28,19 +29,17 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<any>(null);
-    const [userToken, setUserToken] = useLocalStorage<string | null>("@userToken", null)
-    const [loading, setLoading] = useState(true);
+    const [userToken, setUserToken] = useLocalStorage<string | null>("userToken", null);
+    const [loading, setLoading] = useState(false);
 
-    const login = async (email: string, password: string) => {
-        try {
-            // Replace with actual login API call
-            const fakeUser = { id: '1', username: email };
-            setUser(fakeUser);
-            localStorage.setItem('user', JSON.stringify(fakeUser));
-        } catch (error) {
-            console.error('Login failed:', error);
-            throw error;
-        }
+    const login = (email: string, password: string) => {
+        setLoading(true);
+        loginAPI(email, password).then((response:any) => {
+            setLoading(false);
+            console.log(response);
+            setUserToken(response.token);
+        })
+        .catch(err => console.error(err))
     };
 
     const logout = async () => {

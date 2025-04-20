@@ -1,45 +1,19 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router";
 import { useFormik } from "formik";
-import { API } from "@/api/api";
 import { LoginSchema } from "@/utils/validation/YupSchema";
 import { InitLogin } from "@/utils/initValues/InitValues";
-import SwitchAuthLink from "@/components/auth/SwitchAuthLink";
+import { useAuth } from "@/contexts/AuthContext";
+import ActivityIndicator from "@/components/other/AcitivityIndicator";
 
 const Login: React.FC = () => {
-    const navigate = useNavigate();
-    const token = localStorage.getItem("mbs_user_token");
-    if (token) return <Navigate to="/" replace />;
 
-
+    const { login, loading } = useAuth();
 
     const formik = useFormik({
         initialValues: InitLogin,
         validationSchema: LoginSchema,
-        onSubmit: async (values, { setSubmitting, setFieldError }) => {
-            try {
-                const loginResponse = await API.post(`/login`, values, {
-                    headers: { "Content-Type": "application/json" },
-                });
-
-                if (loginResponse.status === 200) {
-                    const token = loginResponse.data.token;
-                    localStorage.setItem("mbs_user_token", token);
-
-                    const response = await API.get(`/me`, {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-
-                    localStorage.setItem("mbs_user", JSON.stringify(response.data));
-
-                    navigate("/");
-                }
-            } catch (error) {
-                setFieldError("password", "Invalid email or password");
-                console.error("Login failed:", error);
-            } finally {
-                setSubmitting(false);
-            }
+        onSubmit: (values) => {
+            login(values.email, values.password);
         }
     });
 
@@ -67,7 +41,6 @@ const Login: React.FC = () => {
                             <p className="text-sm text-red-500 mt-1">{formik.errors.email}</p>
                         )}
                     </div>
-
                     <div>
                         <label className="block text-gray-700 font-medium">Password</label>
                         <input
@@ -86,21 +59,16 @@ const Login: React.FC = () => {
                             <p className="text-sm text-red-500 mt-1">{formik.errors.password}</p>
                         )}
                     </div>
-
-                    <button
+                    {loading 
+                    ? <ActivityIndicator /> 
+                    :<button
                         type="submit"
                         disabled={formik.isSubmitting}
                         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition-all disabled:opacity-60"
                     >
                         {formik.isSubmitting ? "Signing in..." : "Sign in"}
-                    </button>
+                    </button>}
                 </form>
-                <SwitchAuthLink
-                    message="Don't have an account?"
-                    linkText="Sign up"
-                    to="/register"
-                />
-
             </div>
         </div>
     );
