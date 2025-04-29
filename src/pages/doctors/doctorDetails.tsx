@@ -34,13 +34,15 @@ const DoctorDetailPage: React.FC = () => {
 
     useEffect(() => {
         if(!doctor) setLoading(true);
+        console.log({fetchedDoctor});
+        
         if (fetchedDoctor) {
-            setDoctor(fetchedDoctor);
+            setDoctor(fetchedDoctor[0]);
             setLoading(false);
         }
     }, [fetchedDoctor, fetchedDoctorLoading, fetchedDoctorError]);
 
-    if (loading) {
+    if (loading || fetchedDoctorLoading) {
         return (
             <div className="container mx-auto p-6 text-center">
                 <p className="text-gray-600">Loading doctor data&hellip;</p>
@@ -64,12 +66,12 @@ const DoctorDetailPage: React.FC = () => {
             <div className="flex items-center mb-8">
                 <img
                     className="w-24 h-24 object-cover rounded-full border-2 border-gray-200"
-                    src={imageBaseUrl + doctor.photo}
-                    alt={doctor.fullName}
+                    src={imageBaseUrl + doctor?.photo}
+                    alt={doctor?.fullName}
                 />
                 <div className="ml-6">
-                    <h1 className="text-3xl font-bold text-gray-800">{doctor.fullName}</h1>
-                    <p className="text-gray-500">@{doctor.username}</p>
+                    <h1 className="text-3xl font-bold text-gray-800">{doctor?.fullName}</h1>
+                    <p className="text-gray-500">@{doctor?.username}</p>
                 </div>
             </div>
 
@@ -81,32 +83,32 @@ const DoctorDetailPage: React.FC = () => {
                     <div>
                         <dt className="font-medium">Email</dt>
                         <dd>
-                            <a href={`mailto:${doctor.email}`} className="text-blue-600 hover:underline">
-                                {doctor.email}
+                            <a href={`mailto:${doctor?.email}`} className="text-blue-600 hover:underline">
+                                {doctor?.email}
                             </a>
                         </dd>
                     </div>
 
                     <div>
                         <dt className="font-medium">Specialty</dt>
-                        <dd>{doctor.doctorProfile.speciality.name}</dd>
+                        <dd>{doctor?.doctorProfile?.speciality?.name}</dd>
                     </div>
 
                     <div>
                         <dt className="font-medium">Address</dt>
-                        <dd>{doctor.doctorProfile.address}</dd>
+                        <dd>{doctor.doctorProfile?.address}</dd>
                     </div>
 
                     <div className="md:col-span-2">
                         <dt className="font-medium">Bio</dt>
-                        <dd>{doctor.doctorProfile.bio}</dd>
+                        <dd>{doctor.doctorProfile?.bio}</dd>
                     </div>
                 </dl>
 
                 {/* Optional metadata */}
                 <div className="mt-6 border-t pt-4 text-gray-500 text-sm">
-                    <p>Account type : {doctor.accountType}</p>
-                    <p>Registered on : {new Date(doctor.createdAt).toLocaleDateString()}</p>
+                    <p>Account type : {doctor?.accountType}</p>
+                    <p>Registered on : {new Date(doctor?.createdAt)?.toLocaleDateString()}</p>
                 </div>
             </div>
         </div>

@@ -17,15 +17,15 @@ const Routing: React.FC = () => {
 
   return (
     <Routes>
-      <Route  element={<PublicRoute />}>
-        <Route path="/login" element={<Login />} />
-      </Route>
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home />} />
         <Route path="/doctors/:id" element={<DoctorDetailPage />} />
         <Route path="/patients/:id" element={<PatientDetailPage />} />
         {/* <Route path="/" element={<Ai />} /> */}
+      </Route>
+      <Route  element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

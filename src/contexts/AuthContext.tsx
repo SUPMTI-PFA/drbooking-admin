@@ -56,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUserToken(null);
     }, []);
 
-    useEffect(() => { !init ? setLoading(true) : setLoading(false) }, [init])
+    // useEffect(() => { !init ? setLoading(true) : setLoading(false) }, [init])
 
     const value = useMemo(
         () => ({

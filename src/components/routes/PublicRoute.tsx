@@ -7,9 +7,9 @@ import LoadingPage from '../other/LoadingPage';
 
 const PublicRoute: React.FC = () => {
 
-  const { userToken, loading } = useAuth();
+  const { userToken, loading, init } = useAuth();
 
-  if (loading) return <LoadingPage />;
+  if (loading || !init) return <LoadingPage />;
 
   return userToken
     ? <Navigate to="/" replace />
