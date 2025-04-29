@@ -5,7 +5,7 @@ import { Colors } from '@/utils/helpers/enums';
 
 const Footer: React.FC = () => {
   return (
-    <footer className=" text-white" style={{backgroundColor:Colors.Accent}}>
+    <footer className=" text-white bg-accent">
       <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center">
         {/* Company Info */}
         <div className="mb-4 md:mb-0 text-center md:text-left">
