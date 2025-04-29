@@ -1,12 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { FaRegEye } from "react-icons/fa";
-
-// Define the doctor profile and related types
-interface DoctorProfile {
+import { TbPhotoOff } from "react-icons/tb";
+// Define the Patient profile and related types
+interface PatientProfile {
     address: string
     bio: string
-    speciality: Speciality
 }
 
 interface Speciality {
@@ -14,11 +13,11 @@ interface Speciality {
     name: string
 }
 
-interface DoctorInfo {
+interface PatientInfo {
     id: number
     accountType: string
     createdAt: string
-    doctorProfile: DoctorProfile
+    PatientProfile: PatientProfile
     email: string
     firstName: string
     lastName: string
@@ -27,14 +26,14 @@ interface DoctorInfo {
     photo: string
 }
 
-interface DoctorInfoCardProps {
-    doctor: DoctorInfo
+interface PatientInfoCardProps {
+    Patient: PatientInfo
 }
 
 /**
- * A card component to display doctor information.
+ * A card component to display Patient information.
  */
-const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
+const PatientInfoCard: React.FC<PatientInfoCardProps> = ({ Patient }) => {
 
     const imageBaseUrl = import.meta.env.VITE_API_UPLOAD
 
@@ -44,14 +43,18 @@ const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
         >
             {/* Header with photo and basic info */}
             <div className='flex flex-wrap items-center px-6 py-4 bg-gray-100'>
-                <img
+                {Patient?.photo 
+                ? <img
                     className='w-16 h-16 object-cover rounded-full mr-4'
-                    src={imageBaseUrl + doctor?.photo}
-                    alt={doctor?.fullName}
-                />
+                    src={imageBaseUrl + Patient?.photo}
+                    alt={Patient?.fullName}
+                /> 
+                : <TbPhotoOff size={20} className='w-16 h-16 object-cover mr-4'/>
+                
+                }
                 <div >
-                    <h2 className='text-xl font-semibold text-gray-800'>{doctor?.fullName}</h2>
-                    <p className='text-gray-600'>@{doctor?.username}</p>
+                    <h2 className='text-xl font-semibold text-gray-800'>{Patient?.fullName}</h2>
+                    <p className='text-gray-600'>@{Patient?.username}</p>
                 </div>
             </div>
 
@@ -59,26 +62,20 @@ const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
             <div className='px-6 py-4 space-y-3'>
                 <div>
                     <span className='font-medium text-gray-800 z-10' >Email:</span>{' '}
-                    <Link to={`mailto:${doctor?.email}`} className='text-blue-600 hover:underline'>
-                        {doctor?.email}
+                    <Link to={`mailto:${Patient?.email}`} className='text-blue-600 hover:underline'>
+                        {Patient?.email}
                     </Link>
                 </div>
-
-                <div>
-                    <span className='font-medium text-gray-800'>Specialities:</span>{' '}
-                    <span className='text-gray-700'>{doctor?.doctorProfile?.speciality?.name}</span>
-                </div>
-
-                <div>
+                {/* <div>
                     <span className='font-medium text-gray-800'>Address:</span>{' '}
-                    <span className='text-gray-700'>{doctor?.doctorProfile?.address}</span>
-                </div>
+                    <span className='text-gray-700'>{Patient?.PatientProfile?.address}</span>
+                </div> */}
             </div>
             <div className='flex justify-end p-2'>
                 <Link
-                    key={doctor.id}
-                    to={`/doctors/${doctor.id}`}
-                    state={{ doctor }}
+                    key={Patient.id}
+                    to={`/patients/${Patient.id}`}
+                    state={{ Patient }}
                     className='flex items-center rounded-sm bg-accent text-white gap-2 p-3'>
                     <FaRegEye size={25}/>
                     <p>View</p>
@@ -88,4 +85,4 @@ const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
     )
 }
 
-export default DoctorInfoCard
+export default PatientInfoCard

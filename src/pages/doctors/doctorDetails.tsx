@@ -1,4 +1,4 @@
-import { doctorsAPI } from '@/api/doctorsApi';
+import { usersAPI } from '@/api/usersApi';
 import DoctorInfoCard from '@/components/doctors/doctorsCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from '@tanstack/react-query';
@@ -28,7 +28,7 @@ const DoctorDetailPage: React.FC = () => {
 
     const { data: fetchedDoctor, isLoading: fetchedDoctorLoading, isError: fetchedDoctorError } = useQuery({
         queryKey: ['user'],
-        queryFn: () => doctorsAPI(id),
+        queryFn: () => usersAPI(id),
         enabled: !!userToken && !doctor
     })
 
@@ -75,7 +75,7 @@ const DoctorDetailPage: React.FC = () => {
 
             {/* Details Card */}
             <div className="bg-white shadow rounded-lg p-6">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Détails du docteur</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Doctor details</h2>
 
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-gray-700">
                     <div>
@@ -88,12 +88,12 @@ const DoctorDetailPage: React.FC = () => {
                     </div>
 
                     <div>
-                        <dt className="font-medium">Spécialité</dt>
+                        <dt className="font-medium">Specialty</dt>
                         <dd>{doctor.doctorProfile.speciality.name}</dd>
                     </div>
 
                     <div>
-                        <dt className="font-medium">Adresse</dt>
+                        <dt className="font-medium">Address</dt>
                         <dd>{doctor.doctorProfile.address}</dd>
                     </div>
 
@@ -105,8 +105,8 @@ const DoctorDetailPage: React.FC = () => {
 
                 {/* Optional metadata */}
                 <div className="mt-6 border-t pt-4 text-gray-500 text-sm">
-                    <p>Type de compte : {doctor.accountType}</p>
-                    <p>Inscrit le : {new Date(doctor.createdAt).toLocaleDateString()}</p>
+                    <p>Account type : {doctor.accountType}</p>
+                    <p>Registered on : {new Date(doctor.createdAt).toLocaleDateString()}</p>
                 </div>
             </div>
         </div>

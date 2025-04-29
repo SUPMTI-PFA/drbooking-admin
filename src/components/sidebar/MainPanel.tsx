@@ -3,6 +3,7 @@ import { Panel } from 'primereact/panel';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import Doctors from '../doctors/doctors';
+import Patients from '../patients/Patients';
 
 const MainPanel: React.FC = () => {
   // Detect mobile (you can adjust the 640px breakpoint as you like)
@@ -22,7 +23,7 @@ const MainPanel: React.FC = () => {
               <Doctors />
             </AccordionTab>
             <AccordionTab header="Patients">
-              <p>Here you can visualize Patients.</p>
+              <Patients/>
             </AccordionTab>
             <AccordionTab header="Appointments">
               <p>Here you can visualize Appointments.</p>
@@ -37,7 +38,7 @@ const MainPanel: React.FC = () => {
               <Doctors />
             </TabPanel>
             <TabPanel header="Patients">
-              <p>Here you can visualize Patients.</p>
+            <Patients/>
             </TabPanel>
             <TabPanel header="Appointments">
               <p>Here you can visualize Appointments.</p>

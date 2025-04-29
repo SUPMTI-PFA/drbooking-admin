@@ -1,4 +1,4 @@
-import { doctorsAPI } from '@/api/doctorsApi';
+import { usersAPI } from '@/api/usersApi';
 import { useQuery } from '@tanstack/react-query';
 import React, { createContext, ReactNode, useContext } from 'react';
 import { useAuth } from './AuthContext';
@@ -6,28 +6,28 @@ import { specialtiesAPI } from '@/api/specialtiesApi';
 
 // Context value type
 type BaseContextType = {
-    doctors: any;
+    users: any;
     specialties: any
-    doctorsLoading: boolean;
+    usersLoading: boolean;
     specialtiesLoading: boolean
-    doctorsError: boolean;
+    usersError: boolean;
     specialtiesError: boolean
 };
 
 // Create context with default values
 const BaseContext = createContext<BaseContextType>({
-    doctors: undefined,
+    users: undefined,
     specialties: undefined,
-    doctorsLoading: false,
+    usersLoading: false,
     specialtiesLoading: false,
-    doctorsError: false,
+    usersError: false,
     specialtiesError: false
 });
 
 export const useBaseContext = (): BaseContextType => {
     const context = useContext(BaseContext);
     if (!context) {
-        throw new Error('useDoctors must be used within BaseProvider');
+        throw new Error('useBaseContext must be used within BaseProvider');
     }
     return context;
 };
@@ -37,9 +37,9 @@ export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const {userToken} = useAuth();
 
-    const { data: doctors, isLoading: doctorsLoading, isError: doctorsError } = useQuery({
+    const { data: users, isLoading: usersLoading, isError: usersError } = useQuery({
         queryKey: ['users'],
-        queryFn: () => doctorsAPI(),
+        queryFn: () => usersAPI(),
         enabled: !!userToken
     })
 
@@ -49,16 +49,16 @@ export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         enabled: !!userToken
     })
 
-    // React.useEffect(() => {
-    //     doctors && console.log(doctors);
-    // }, [doctors])
+    React.useEffect(() => {
+        users && console.log(users);
+    }, [users])
 
     const baseContextValues = {
-        doctors,
+        users,
         specialties,
-        doctorsLoading,
+        usersLoading,
         specialtiesLoading,
-        doctorsError,
+        usersError,
         specialtiesError
     };
 

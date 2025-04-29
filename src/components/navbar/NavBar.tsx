@@ -49,13 +49,13 @@ const Navbar: React.FC = () => {
                     {/* Desktop links */}
                     <div className="hidden md:flex md:items-center gap-6">
                         <Link to="/" className="flex items-center gap-2 text-gray-700 hover:text-orange-500 text-sm font-medium">
-                            <FaHome /> Home
+                            <FaHome size={25} /> Home
                         </Link>
                         <button
                             onClick={handleLogout}
                             className="flex items-center gap-2 text-gray-700 hover:text-red-500 text-sm font-medium"
                         >
-                            <FaSignOutAlt /> Logout
+                            <FaSignOutAlt size={25} /> Logout
                         </button>
 
                     </div>
