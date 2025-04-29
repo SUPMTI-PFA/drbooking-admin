@@ -5,20 +5,27 @@ import "react-toastify/dist/ReactToastify.css";
 import Routing from './Routing';
 import { AuthProvider } from './contexts/AuthContext';
 import { PrimeReactProvider } from 'primereact/api';
-import { BrowserRouter } from 'react-router';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+import { BaseProvider } from './contexts/baseContext';
+
 
 const App: React.FC = () => {
 
+  const queryClient = new QueryClient()
   return (
     <>
-      <ToastContainer />
-      <AuthProvider>
-        <WindowWidthProvider>
-          <PrimeReactProvider>
-            <Routing />
-          </PrimeReactProvider>
-        </WindowWidthProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient} >
+        <ToastContainer />
+        <AuthProvider>
+          <BaseProvider>
+            <WindowWidthProvider>
+              <PrimeReactProvider>
+                <Routing />
+              </PrimeReactProvider>
+            </WindowWidthProvider>
+          </BaseProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </>
   );
 };
