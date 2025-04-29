@@ -6,6 +6,7 @@ import { Navigate, Outlet } from "react-router";
 const ProtectedRoute: React.FC = () => {
 
     const {userToken} = useAuth();
+    
     if (!userToken) {
         return <Navigate to="/login" replace />;
     }

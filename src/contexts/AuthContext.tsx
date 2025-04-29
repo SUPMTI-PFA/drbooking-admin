@@ -1,6 +1,7 @@
 // contexts/AuthContext.tsx
 import { loginAPI } from '@/api/authApi';
-import { useLocalStorage } from '@/hooks/LocalStorage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import useNotification from '@/hooks/useNotification';
 import { AuthContextType } from '@/utils/interfaces/Interfaces';
 import React, {
     createContext,
@@ -8,6 +9,8 @@ import React, {
     useState,
     ReactNode,
     useMemo,
+    useCallback,
+    useEffect,
 } from 'react';
 
 // Create the context with default values
@@ -28,23 +31,32 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+
     const [user, setUser] = useState<any>(null);
-    const [userToken, setUserToken] = useLocalStorage<string | null>("userToken", null);
+    const [userToken, setUserToken, init] = useLocalStorage<string | null>("userToken", null);
     const [loading, setLoading] = useState(false);
+    const notificationToken = useNotification();
 
-    const login = (email: string, password: string) => {
+    const login = useCallback((email: string, password: string, rememberMe: boolean) => {
         setLoading(true);
-        loginAPI(email, password).then((response:any) => {
-            setLoading(false);
-            console.log(response);
-            setUserToken(response.token);
-        })
-        .catch(err => console.error(err))
-    };
+        loginAPI(email, password)
+            .then((response: any) => {
+                console.log(response.token);
+                setUserToken(response.token, rememberMe);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error(err)
+                setLoading(false);
+            })
+    }, []);
 
-    const logout = async () => {
+    const logout = useCallback(() => {
         setUser(null);
-    };
+        setUserToken(null);
+    }, []);
+
+    useEffect(() => { !init ? setLoading(true) : setLoading(false) }, [init])
 
     const value = useMemo(
         () => ({
@@ -53,8 +65,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
             loading,
             login,
             logout,
+            init,
+            notificationToken
         }),
-        [user, loading]
+        [user, loading, userToken, init]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

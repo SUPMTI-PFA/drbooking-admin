@@ -6,36 +6,38 @@ import {
     FaSignInAlt,
     FaUserPlus,
     FaSignOutAlt,
-    FaTimes
+    FaTimes,
+    FaBell,
+    FaBellSlash
+
 } from 'react-icons/fa';
-
+import { useAuth } from '@/contexts/AuthContext';
+import LOGO from "../../assets/drbooking-logo-1.png";
 const Navbar: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('mbs_user_token');
-        setIsLoggedIn(!!token);
-    }, []);
+    const [isOpen, setIsOpen] = useState(false);
+    const { userToken, logout, notificationToken } = useAuth()
 
     const handleLogout = () => {
-        localStorage.removeItem('mbs_user_token');
-        localStorage.removeItem('mbs_user');
-        setIsLoggedIn(false);
-        navigate('/login');
+        logout()
     };
 
     return (
         <>
             {/* Navbar top */}
-            <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <nav className="bg-white shadow-md top-0 left-0 right-0 z-50">
+                <div className="mx-auto px-10 py-3 flex justify-between items-center">
                     {/* Logo */}
-                    <Link to="/" className="text-2xl font-bold text-orange-500">
-                        DreamJob
-                    </Link>
-
+                    <img src={LOGO} className='h-10' />
+                    {notificationToken
+                        ? <div className='flex gap-2 items-center'>
+                            <FaBell />
+                            <p className=''>Notifications enabled, permissions granted</p>
+                        </div>
+                        : <div className='flex gap-2 items-center'>
+                            <FaBellSlash />
+                            <p>Notifications disabled, permissions denied</p>
+                        </div>}
                     {/* Hamburger for mobile */}
                     <button
                         className="md:hidden text-gray-700 focus:outline-none"
@@ -49,24 +51,13 @@ const Navbar: React.FC = () => {
                         <Link to="/" className="flex items-center gap-2 text-gray-700 hover:text-orange-500 text-sm font-medium">
                             <FaHome /> Home
                         </Link>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-2 text-gray-700 hover:text-red-500 text-sm font-medium"
+                        >
+                            <FaSignOutAlt /> Logout
+                        </button>
 
-                        {!isLoggedIn ? (
-                            <>
-                                <Link to="/login" className="flex items-center gap-2 text-gray-700 hover:text-orange-500 text-sm font-medium">
-                                    <FaSignInAlt /> Sign In
-                                </Link>
-                                <Link to="/register" className="flex items-center gap-2 text-gray-700 hover:text-orange-500 text-sm font-medium">
-                                    <FaUserPlus /> Sign Up
-                                </Link>
-                            </>
-                        ) : (
-                            <button
-                                onClick={handleLogout}
-                                className="flex items-center gap-2 text-gray-700 hover:text-red-500 text-sm font-medium"
-                            >
-                                <FaSignOutAlt /> Logout
-                            </button>
-                        )}
                     </div>
                 </div>
             </nav>
@@ -89,7 +80,7 @@ const Navbar: React.FC = () => {
                         </Link>
                     </li>
 
-                    {!isLoggedIn ? (
+                    {!userToken ? (
                         <>
                             <li>
                                 <Link to="/login" className="flex items-center gap-2 text-gray-700 hover:text-orange-500" onClick={() => setIsOpen(false)}>

@@ -1,7 +1,10 @@
 @import "tailwindcss";
+@import "primereact/resources/themes/lara-light-blue/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
 
 body {
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .p-datatable table {
