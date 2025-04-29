@@ -49,9 +49,9 @@ export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         enabled: !!userToken
     })
 
-    React.useEffect(() => {
-        console.log(doctors);
-    }, [doctors])
+    // React.useEffect(() => {
+    //     doctors && console.log(doctors);
+    // }, [doctors])
 
     const baseContextValues = {
         doctors,

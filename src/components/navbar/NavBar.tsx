@@ -32,11 +32,11 @@ const Navbar: React.FC = () => {
                     {notificationToken
                         ? <div className='flex gap-2 items-center'>
                             <FaBell />
-                            <p className=''>Notifications enabled, permissions granted</p>
+                            <p className='hidden md:block'>Notifications enabled, permissions granted</p>
                         </div>
                         : <div className='flex gap-2 items-center'>
                             <FaBellSlash />
-                            <p>Notifications disabled, permissions denied</p>
+                            <p className='hidden md:block'>Notifications disabled, permissions denied</p>
                         </div>}
                     {/* Hamburger for mobile */}
                     <button

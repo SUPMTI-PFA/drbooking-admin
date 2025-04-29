@@ -1,6 +1,6 @@
 import { API } from "./api";
 
-export const doctorsAPI = () => {
+export const doctorsAPI = (id?:string) => {
     return API.get(
         '/users', {
         headers: {
@@ -8,7 +8,8 @@ export const doctorsAPI = () => {
             Accept: "application/json"
         },
         params:{
-            "accountType": "doctor"
+            "accountType": "doctor",
+            ...id && {id}
         }
 
     }

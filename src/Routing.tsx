@@ -8,6 +8,7 @@ import Ai from "./pages/ai/Ai";
 import NotFound from "./pages/notFound/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 import PublicRoute from "./components/routes/PublicRoute";
+import DoctorDetailPage from "./pages/doctors/doctorDetails";
 
 const Routing: React.FC = () => {
 
@@ -17,11 +18,11 @@ const Routing: React.FC = () => {
     <Routes>
       <Route  element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
       </Route>
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<Home />} />
+        <Route index element={<Home />} />
+        <Route path="/doctors/:id" element={<DoctorDetailPage />} />
         {/* <Route path="/" element={<Ai />} /> */}
       </Route>
       <Route path="*" element={<NotFound />} />

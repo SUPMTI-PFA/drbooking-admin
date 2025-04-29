@@ -10,8 +10,10 @@ import { Navigate } from 'react-router';
 
 const LoginPage: React.FC = () => {
 
-  const { login, loading } = useAuth();
+  const { login, loading, userToken } = useAuth();
 
+  if (userToken) return <Navigate to="/" replace />
+  
   const formik = useFormik({
     initialValues: {
       ...InitLogin,
@@ -21,6 +23,8 @@ const LoginPage: React.FC = () => {
     onSubmit: ({ email, password, remember }) =>
       login(email, password, remember),
   });
+
+
 
 
 
@@ -131,7 +135,7 @@ const LoginPage: React.FC = () => {
             {/* Remember Me */}
             <div className="flex items-center">
               <input
-              
+
                 id="remember"
                 type="checkbox"
                 name="remember"
