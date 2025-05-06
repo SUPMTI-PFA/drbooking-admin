@@ -74,13 +74,13 @@ const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
                     <span className='text-gray-700'>{doctor?.doctorProfile?.address}</span>
                 </div>
             </div>
-            <div className='flex justify-end p-2'>
+            <div className='flex justify-end p-2 gap-2'>
                 <Link
                     key={doctor.id}
                     to={`/doctors/${doctor.id}`}
                     state={{ doctor }}
                     className='flex items-center rounded-sm bg-accent text-white gap-2 p-3'>
-                    <FaRegEye size={25}/>
+                    <FaRegEye size={25} />
                     <p>View</p>
                 </Link>
             </div>

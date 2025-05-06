@@ -11,7 +11,8 @@ type BaseContextType = {
     usersLoading: boolean;
     specialtiesLoading: boolean
     usersError: boolean;
-    specialtiesError: boolean
+    specialtiesError: boolean,
+    isMobile: boolean
 };
 
 // Create context with default values
@@ -21,7 +22,8 @@ const BaseContext = createContext<BaseContextType>({
     usersLoading: false,
     specialtiesLoading: false,
     usersError: false,
-    specialtiesError: false
+    specialtiesError: false,
+    isMobile: false
 });
 
 export const useBaseContext = (): BaseContextType => {
@@ -36,6 +38,8 @@ export const useBaseContext = (): BaseContextType => {
 export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const {userToken} = useAuth();
+     const [isMobile, setIsMobile] = React.useState(window.innerWidth < 640);
+      
 
     const { data: users, isLoading: usersLoading, isError: usersError } = useQuery({
         queryKey: ['users'],
@@ -53,13 +57,24 @@ export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         users && console.log(users);
     }, [users])
 
+    React.useEffect(() => {
+        specialties && console.log(specialties);
+    }, [specialties])
+
+    React.useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth < 640);
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+      }, []);
+
     const baseContextValues = {
         users,
         specialties,
         usersLoading,
         specialtiesLoading,
         usersError,
-        specialtiesError
+        specialtiesError,
+        isMobile
     };
 
     return (

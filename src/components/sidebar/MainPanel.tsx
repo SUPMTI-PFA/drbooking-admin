@@ -4,15 +4,13 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import Doctors from '../doctors/doctors';
 import Patients from '../patients/Patients';
+import { useBaseContext } from '@/contexts/baseContext';
+import Specialities from '../spcialities/specialities';
 
 const MainPanel: React.FC = () => {
+
   // Detect mobile (you can adjust the 640px breakpoint as you like)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 640);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+  const { isMobile } = useBaseContext()
 
   return (
     <div className="">
@@ -23,13 +21,13 @@ const MainPanel: React.FC = () => {
               <Doctors />
             </AccordionTab>
             <AccordionTab header="Patients">
-              <Patients/>
+              <Patients />
             </AccordionTab>
             <AccordionTab header="Appointments">
               <p>Here you can visualize Appointments.</p>
             </AccordionTab>
             <AccordionTab header="Specialties">
-              <p>Update dashboard settings.</p>
+              <Specialities />
             </AccordionTab>
           </Accordion>
         ) : (
@@ -38,13 +36,13 @@ const MainPanel: React.FC = () => {
               <Doctors />
             </TabPanel>
             <TabPanel header="Patients">
-            <Patients/>
+              <Patients />
             </TabPanel>
             <TabPanel header="Appointments">
               <p>Here you can visualize Appointments.</p>
             </TabPanel>
             <TabPanel header="Specialties">
-              <p>Update dashboard settings.</p>
+              <Specialities />
             </TabPanel>
           </TabView>
         )}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import DoctorInfoCard from '@/components/doctors/doctorsCard';
-import PostDoctor from './PostDoctor';
 import { useBaseContext } from '@/contexts/baseContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaWindowClose, FaPlus } from 'react-icons/fa';
 import { Colors } from '@/utils/helpers/enums';
+import SpecialityCard from './specialityCard';
 
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -18,14 +18,14 @@ const modalVariants = {
   exit: { opacity: 0, scale: 0.8, y: 50 }
 };
 
-const Doctors: React.FC = () => {
-  const { users } = useBaseContext();
+const Specialities: React.FC = () => {
+  const { specialties } = useBaseContext();
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="sm:p-8">
       <div className="flex flex-col sm:flex-row sm:justify-between items-center mb-6 flex-wrap justify-center">
-        <h1 className="text-3xl font-bold text-gray-800">Our doctors</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Our specialities</h1>
         <button
           type="button"
           onClick={() => setShowModal(true)}
@@ -64,7 +64,7 @@ const Doctors: React.FC = () => {
                 transition={{ duration: 0.2 }}
               >
                 <div className="flex items-center  justify-between">
-                  <h2 className="text-2xl font-bold">Add New Doctor</h2>
+                  <h2 className="text-2xl font-bold">Add New Speciality</h2>
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
@@ -72,7 +72,7 @@ const Doctors: React.FC = () => {
                     <FaWindowClose color={Colors.Error} size={20} />
                   </button>
                 </div>
-                <PostDoctor setModal={setShowModal} />
+                {/* <PostDoctor setModal={setShowModal} /> */}
               </motion.div>
             </motion.div>
           </>
@@ -80,14 +80,13 @@ const Doctors: React.FC = () => {
       </AnimatePresence>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {users
-          ?.filter((user: any) => user.accountType?.toLowerCase() === 'doctor')
-          .map((doctor: any) => (
-            <DoctorInfoCard key={doctor.id} doctor={doctor} />
+        {specialties
+          ?.map((speciality: any) => (
+            <SpecialityCard key={speciality.id} content={speciality.name} />
           ))}
       </div>
     </div>
   );
 };
 
-export default Doctors;
+export default Specialities;
