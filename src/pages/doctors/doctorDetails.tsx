@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { useFormik } from 'formik';
 import { formDataNormalizer } from '@/utils/helpers/Helpers';
+import AnimatedPage from '@/components/AnimatedPage';
 
 const DoctorDetailPage: React.FC = () => {
     const location = useLocation();
@@ -72,7 +73,8 @@ const DoctorDetailPage: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto p-6">
+        <AnimatedPage>
+            <div className="container mx-auto p-6">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold text-gray-800">
                     {editing ? 'Edit Doctor' : 'Doctor Details'}
@@ -194,7 +196,7 @@ const DoctorDetailPage: React.FC = () => {
                 </div>
             )}
         </div>
-    );
+        </AnimatedPage>    );
 };
 
 export default DoctorDetailPage;

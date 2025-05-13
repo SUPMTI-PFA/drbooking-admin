@@ -6,7 +6,8 @@ import { postUserAPI } from '@/api/usersApi';
 import ActivityIndicator from '../other/AcitivityIndicator';
 import { Colors } from '@/utils/helpers/enums';
 import { useBaseContext } from '@/contexts/baseContext';
-import { errorNotify } from '@mbs-dev/react-helpers';
+import { errorNotify, successNotify } from '@mbs-dev/react-helpers';
+import { useQueryClient } from '@tanstack/react-query';
 
 export type Speciality = { id: string; name: string };
 
@@ -51,6 +52,7 @@ const PostDoctor: React.FC<PostDoctorProps> = ({ setModal }) => {
     const { specialties, specialtiesLoading } = useBaseContext()
     const isDev = import.meta.env.DEV;
     console.log("🚀 ~ PostDoctor.tsx:52 ~ isDev --->", isDev)
+    const queryClient = useQueryClient();
     
     const defaultValues: FormValues = {
         firstName: isDev ? 'John' : '',
@@ -89,6 +91,8 @@ const PostDoctor: React.FC<PostDoctorProps> = ({ setModal }) => {
                         .then(res => {
                             resetForm();
                             setSubmitting(false);
+                            successNotify('User registered successfully');
+                            queryClient.invalidateQueries({ queryKey: ['users'] });
                             setModal && setModal(false);
                         })
                         .catch(err => {
@@ -300,7 +304,7 @@ const PostDoctor: React.FC<PostDoctorProps> = ({ setModal }) => {
                                 <button
                                     type="submit"
                                     disabled={formik.isSubmitting}
-                                    className="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition"
+                                    className="p-10 bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition"
                                 >
                                     Add Doctor
                                 </button>

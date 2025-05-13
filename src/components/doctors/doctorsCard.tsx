@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEye, FaEnvelope, FaStethoscope, FaMapMarkerAlt } from "react-icons/fa";
 
-// Define the doctor profile and related types
 interface DoctorProfile {
     address: string
     bio: string
@@ -31,57 +30,66 @@ interface DoctorInfoCardProps {
     doctor: DoctorInfo
 }
 
-/**
- * A card component to display doctor information.
- */
 const DoctorInfoCard: React.FC<DoctorInfoCardProps> = ({ doctor }) => {
-
     const imageBaseUrl = import.meta.env.VITE_API_UPLOAD
 
     return (
-        <div
-            className='border border-gray-300 rounded-lg overflow-hidden justify-between flex flex-col'
-        >
-            {/* Header with photo and basic info */}
-            <div className='flex flex-wrap items-center px-6 py-4 bg-gray-100'>
+        <div className="border border-gray-300 rounded-lg overflow-hidden flex flex-col justify-between">
+            {/* Header */}
+            <div className="flex flex-wrap items-center px-6 py-4 bg-gray-100">
                 <img
-                    className='w-16 h-16 object-cover rounded-full mr-4'
-                    src={imageBaseUrl + doctor?.photo}
-                    alt={doctor?.fullName}
+                    className="w-16 h-16 object-cover rounded-full mr-4"
+                    src={imageBaseUrl + doctor.photo}
+                    alt={doctor.fullName}
                 />
-                <div >
-                    <h2 className='text-xl font-semibold text-gray-800'>{doctor?.fullName}</h2>
-                    <p className='text-gray-600'>@{doctor?.username}</p>
+                <div>
+                    <h2 className="text-xl font-semibold text-gray-800">{doctor.fullName}</h2>
+                    <p className="text-gray-600">@{doctor.username}</p>
                 </div>
             </div>
 
-            {/* Details section */}
-            <div className='px-6 py-4 space-y-3'>
-                <div>
-                    <span className='font-medium text-gray-800 z-10' >Email:</span>{' '}
-                    <Link to={`mailto:${doctor?.email}`} className='text-blue-600 hover:underline'>
-                        {doctor?.email}
+            {/* Details with circled icons */}
+            <div className="px-6 py-4 space-y-4">
+                <div className="flex items-center">
+                    <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">
+                        <FaEnvelope />
+                    </span>
+                    <span className="font-medium text-gray-800">Email:</span>
+                    <Link to={`mailto:${doctor.email}`} className="ml-2 text-blue-600 hover:underline">
+                        {doctor.email}
                     </Link>
                 </div>
 
-                <div>
-                    <span className='font-medium text-gray-800'>Specialities:</span>{' '}
-                    <span className='text-gray-700'>{doctor?.doctorProfile?.speciality?.name}</span>
+                <div className="flex items-center">
+                    <span className="inline-flex items-center justify-center w-8 h-8 bg-green-500 text-white rounded-full mr-3">
+                        <FaStethoscope />
+                    </span>
+                    <span className="font-medium text-gray-800">Speciality:</span>
+                    <span className="ml-2 text-gray-700">
+                        {doctor.doctorProfile.speciality.name}
+                    </span>
                 </div>
 
-                <div>
-                    <span className='font-medium text-gray-800'>Address:</span>{' '}
-                    <span className='text-gray-700'>{doctor?.doctorProfile?.address}</span>
+                <div className="flex items-center">
+                    <span className="inline-flex items-center justify-center w-8 h-8 bg-purple-500 text-white rounded-full mr-3">
+                        <FaMapMarkerAlt />
+                    </span>
+                    <span className="font-medium text-gray-800">Address:</span>
+                    <span className="ml-2 text-gray-700">
+                        {doctor.doctorProfile.address}
+                    </span>
                 </div>
             </div>
-            <div className='flex justify-end p-2 gap-2'>
+
+            {/* Footer View button */}
+            <div className="flex justify-end p-4">
                 <Link
-                    key={doctor.id}
                     to={`/doctors/${doctor.id}`}
                     state={{ doctor }}
-                    className='flex items-center rounded-sm bg-accent text-white gap-2 p-3'>
-                    <FaRegEye size={25} />
-                    <p>View</p>
+                    className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-sm"
+                >
+                    <FaRegEye size={20} />
+                    <span>View</span>
                 </Link>
             </div>
         </div>

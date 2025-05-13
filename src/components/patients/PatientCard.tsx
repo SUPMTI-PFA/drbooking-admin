@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEye, FaEnvelope } from "react-icons/fa";
 import { TbPhotoOff } from "react-icons/tb";
 // Define the Patient profile and related types
 interface PatientProfile {
@@ -43,14 +43,14 @@ const PatientInfoCard: React.FC<PatientInfoCardProps> = ({ Patient }) => {
         >
             {/* Header with photo and basic info */}
             <div className='flex flex-wrap items-center px-6 py-4 bg-gray-100'>
-                {Patient?.photo 
-                ? <img
-                    className='w-16 h-16 object-cover rounded-full mr-4'
-                    src={imageBaseUrl + Patient?.photo}
-                    alt={Patient?.fullName}
-                /> 
-                : <TbPhotoOff size={20} className='w-16 h-16 object-cover mr-4'/>
-                
+                {Patient?.photo
+                    ? <img
+                        className='w-16 h-16 object-cover rounded-full mr-4'
+                        src={imageBaseUrl + Patient?.photo}
+                        alt={Patient?.fullName}
+                    />
+                    : <TbPhotoOff size={20} className='w-16 h-16 object-cover mr-4' />
+
                 }
                 <div >
                     <h2 className='text-xl font-semibold text-gray-800'>{Patient?.fullName}</h2>
@@ -61,10 +61,16 @@ const PatientInfoCard: React.FC<PatientInfoCardProps> = ({ Patient }) => {
             {/* Details section */}
             <div className='px-6 py-4 space-y-3'>
                 <div>
-                    <span className='font-medium text-gray-800 z-10' >Email:</span>{' '}
-                    <Link to={`mailto:${Patient?.email}`} className='text-blue-600 hover:underline'>
-                        {Patient?.email}
-                    </Link>
+                    <div className="flex items-center">
+                        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">
+                            <FaEnvelope />
+                        </span>
+                        <span className="font-medium text-gray-800">Email:</span>
+                        <Link to={`mailto:${Patient?.email}`} className='text-blue-600 hover:underline'>
+                            {Patient?.email}
+                        </Link>
+                    </div>
+
                 </div>
                 {/* <div>
                     <span className='font-medium text-gray-800'>Address:</span>{' '}
@@ -77,7 +83,7 @@ const PatientInfoCard: React.FC<PatientInfoCardProps> = ({ Patient }) => {
                     to={`/patients/${Patient.id}`}
                     state={{ Patient }}
                     className='flex items-center rounded-sm bg-accent text-white gap-2 p-3'>
-                    <FaRegEye size={25}/>
+                    <FaRegEye size={25} />
                     <p>View</p>
                 </Link>
             </div>

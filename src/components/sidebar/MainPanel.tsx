@@ -1,48 +1,169 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Panel } from 'primereact/panel';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import { TabView, TabPanel, TabViewTabChangeEvent } from 'primereact/tabview';
+import { Accordion, AccordionTab, AccordionTabChangeEvent } from 'primereact/accordion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Doctors from '../doctors/doctors';
 import Patients from '../patients/Patients';
 import { useBaseContext } from '@/contexts/baseContext';
 import Specialities from '../spcialities/specialities';
 
-const MainPanel: React.FC = () => {
+const animationVariants = {
+  initial: { opacity: 0, x: 20 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -20 }
+};
 
-  // Detect mobile (you can adjust the 640px breakpoint as you like)
-  const { isMobile } = useBaseContext()
+const MainPanel: React.FC = () => {
+  // Detect mobile (adjust breakpoint as needed)
+  const { isMobile } = useBaseContext();
+
+  // Track active tab/index for animation
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeMobileIndex, setActiveMobileIndex] = useState<number>(0);
 
   return (
-    <div className="">
+    <div>
       <Panel header="Dashboard" className="shadow-lg rounded-lg">
         {isMobile ? (
-          <Accordion>
+          <Accordion
+            activeIndex={activeMobileIndex}
+            onTabChange={(e: AccordionTabChangeEvent) => setActiveMobileIndex(e.index as number)}
+          >
             <AccordionTab header="Doctors">
-              <Doctors />
+              <AnimatePresence mode="wait">
+                {activeMobileIndex === 0 && (
+                  <motion.div
+                    key="doctors-mobile"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Doctors />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </AccordionTab>
             <AccordionTab header="Patients">
-              <Patients />
+              <AnimatePresence mode="wait">
+                {activeMobileIndex === 1 && (
+                  <motion.div
+                    key="patients-mobile"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Patients />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </AccordionTab>
             <AccordionTab header="Appointments">
-              <p>Here you can visualize Appointments.</p>
+              <AnimatePresence mode="wait">
+                {activeMobileIndex === 2 && (
+                  <motion.div
+                    key="appointments-mobile"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Here you can visualize Appointments.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </AccordionTab>
             <AccordionTab header="Specialties">
-              <Specialities />
+              <AnimatePresence mode="wait">
+                {activeMobileIndex === 3 && (
+                  <motion.div
+                    key="specialties-mobile"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Specialities />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </AccordionTab>
           </Accordion>
         ) : (
-          <TabView className="mt-4 overflow-auto">
+          <TabView
+            activeIndex={activeIndex}
+            onTabChange={(e: TabViewTabChangeEvent) => setActiveIndex(e.index)}
+            className="mt-4 overflow-auto"
+          >
             <TabPanel header="Doctors">
-              <Doctors />
+              <AnimatePresence mode="wait">
+                {activeIndex === 0 && (
+                  <motion.div
+                    key="doctors-desktop"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Doctors />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </TabPanel>
             <TabPanel header="Patients">
-              <Patients />
+              <AnimatePresence mode="wait">
+                {activeIndex === 1 && (
+                  <motion.div
+                    key="patients-desktop"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Patients />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </TabPanel>
             <TabPanel header="Appointments">
-              <p>Here you can visualize Appointments.</p>
+              <AnimatePresence mode="wait">
+                {activeIndex === 2 && (
+                  <motion.div
+                    key="appointments-desktop"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Here you can visualize Appointments.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </TabPanel>
             <TabPanel header="Specialties">
-              <Specialities />
+              <AnimatePresence mode="wait">
+                {activeIndex === 3 && (
+                  <motion.div
+                    key="specialties-desktop"
+                    variants={animationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Specialities />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </TabPanel>
           </TabView>
         )}

@@ -47,19 +47,19 @@ export const BaseProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         enabled: !!userToken
     })
 
-    const { data: specialties, isLoading: specialtiesLoading, isError: specialtiesError } = useQuery({
-        queryKey: ['specialties'],
+    const { data: specialties, isLoading: specialtiesLoading, isError: specialtiesError, refetch: specialtiesRefetch } = useQuery({
+        queryKey: ['specialities'],
         queryFn: () => specialtiesAPI(),
         enabled: !!userToken
     })
 
-    React.useEffect(() => {
-        users && console.log(users);
-    }, [users])
+    // React.useEffect(() => {
+    //     users && console.log(users);
+    // }, [users])
 
-    React.useEffect(() => {
-        specialties && console.log(specialties);
-    }, [specialties])
+    // React.useEffect(() => {
+    //     specialties && console.log(specialties);
+    // }, [specialties])
 
     React.useEffect(() => {
         const onResize = () => setIsMobile(window.innerWidth < 640);

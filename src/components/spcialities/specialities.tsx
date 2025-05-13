@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaWindowClose, FaPlus } from 'react-icons/fa';
 import { Colors } from '@/utils/helpers/enums';
 import SpecialityCard from './specialityCard';
+import PostSpeciality from './postSpeciality';
 
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -72,7 +73,7 @@ const Specialities: React.FC = () => {
                     <FaWindowClose color={Colors.Error} size={20} />
                   </button>
                 </div>
-                {/* <PostDoctor setModal={setShowModal} /> */}
+                <PostSpeciality setModal={setShowModal} />
               </motion.div>
             </motion.div>
           </>
