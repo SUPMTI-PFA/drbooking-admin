@@ -1,94 +1,91 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React from 'react';
+import { Link } from 'react-router';
 import { FaRegEye, FaEnvelope } from "react-icons/fa";
 import { TbPhotoOff } from "react-icons/tb";
-// Define the Patient profile and related types
-interface PatientProfile {
-    address: string
-    bio: string
-}
+import { motion } from 'framer-motion';
 
-interface Speciality {
-    id: number
-    name: string
+interface PatientProfile {
+    address: string;
+    bio: string;
 }
 
 interface PatientInfo {
-    id: number
-    accountType: string
-    createdAt: string
-    PatientProfile: PatientProfile
-    email: string
-    firstName: string
-    lastName: string
-    fullName: string
-    username: string
-    photo: string
+    id: number;
+    accountType: string;
+    createdAt: string;
+    PatientProfile: PatientProfile;
+    email: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    username: string;
+    photo: string;
 }
 
 interface PatientInfoCardProps {
-    Patient: PatientInfo
+    Patient: PatientInfo;
 }
 
-/**
- * A card component to display Patient information.
- */
 const PatientInfoCard: React.FC<PatientInfoCardProps> = ({ Patient }) => {
-
-    const imageBaseUrl = import.meta.env.VITE_API_UPLOAD
+    const imageBaseUrl = import.meta.env.VITE_API_UPLOAD;
 
     return (
-        <div
-            className='border border-gray-300 rounded-lg overflow-hidden justify-between flex flex-col'
+        <motion.div 
+            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow"
+            whileHover={{ y: -3 }}
         >
-            {/* Header with photo and basic info */}
-            <div className='flex flex-wrap items-center px-6 py-4 bg-gray-100'>
-                {Patient?.photo
-                    ? <img
-                        className='w-16 h-16 object-cover rounded-full mr-4'
-                        src={imageBaseUrl + Patient?.photo}
-                        alt={Patient?.fullName}
-                    />
-                    : <TbPhotoOff size={20} className='w-16 h-16 object-cover mr-4' />
-
-                }
-                <div >
-                    <h2 className='text-xl font-semibold text-gray-800'>{Patient?.fullName}</h2>
-                    <p className='text-gray-600'>@{Patient?.username}</p>
+            {/* Header with patient photo and basic info */}
+            <div className="px-5 pt-5 pb-3 flex items-center space-x-4">
+                <div className="relative">
+                    {Patient?.photo ? (
+                        <img
+                            className="w-16 h-16 object-cover rounded-full border-4 border-blue-50"
+                            src={imageBaseUrl + Patient.photo}
+                            alt={Patient.fullName}
+                        />
+                    ) : (
+                        <div className="w-16 h-16 rounded-full border-4 border-blue-50 bg-gray-100 flex items-center justify-center">
+                            <TbPhotoOff size={24} className="text-gray-400" />
+                        </div>
+                    )}
+                </div>
+                <div>
+                    <h2 className="text-lg font-semibold text-gray-800">{Patient.fullName}</h2>
+                    <p className="text-gray-500 text-sm">@{Patient.username}</p>
                 </div>
             </div>
 
-            {/* Details section */}
-            <div className='px-6 py-4 space-y-3'>
-                <div>
-                    <div className="flex items-center">
-                        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">
-                            <FaEnvelope />
-                        </span>
-                        <span className="font-medium text-gray-800">Email:</span>
-                        <Link to={`mailto:${Patient?.email}`} className='text-blue-600 hover:underline'>
-                            {Patient?.email}
+            {/* Contact information */}
+            <div className="px-5 py-3 bg-blue-50 flex-grow">
+                <div className="flex items-start">
+                    <div className="flex-shrink-0 pt-1">
+                        <FaEnvelope className="text-blue-400" />
+                    </div>
+                    <div className="ml-3">
+                        <p className="text-xs font-medium text-gray-500">EMAIL</p>
+                        <Link 
+                            to={`mailto:${Patient.email}`} 
+                            className="text-blue-600 hover:underline text-sm break-all"
+                        >
+                            {Patient.email}
                         </Link>
                     </div>
-
                 </div>
-                {/* <div>
-                    <span className='font-medium text-gray-800'>Address:</span>{' '}
-                    <span className='text-gray-700'>{Patient?.PatientProfile?.address}</span>
-                </div> */}
             </div>
-            <div className='flex justify-end p-2'>
+
+            {/* View button */}
+            <div className="px-5 py-3 border-t border-gray-100">
                 <Link
-                    key={Patient.id}
                     to={`/patients/${Patient.id}`}
                     state={{ Patient }}
-                    className='flex items-center rounded-sm bg-accent text-white gap-2 p-3'>
-                    <FaRegEye size={25} />
-                    <p>View</p>
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium"
+                >
+                    <FaRegEye size={16} className="text-blue-500" />
+                    <span>View Profile</span>
                 </Link>
             </div>
-        </div>
-    )
-}
+        </motion.div>
+    );
+};
 
-export default PatientInfoCard
+export default PatientInfoCard;

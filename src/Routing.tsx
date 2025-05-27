@@ -10,6 +10,7 @@ import { useAuth } from "./contexts/AuthContext";
 import PublicRoute from "./components/routes/PublicRoute";
 import DoctorDetailPage from "./pages/doctors/doctorDetails";
 import PatientDetailPage from "./pages/patients/patientDetails";
+import DoctorsBySpec from "./pages/specialties/DoctorsBySpec";
 
 const Routing: React.FC = () => {
 
@@ -21,6 +22,7 @@ const Routing: React.FC = () => {
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home />} />
         <Route path="/doctors/:id" element={<DoctorDetailPage />} />
+        <Route path="/doctors-by-specialty/:specialty" element={<DoctorsBySpec />} />
         <Route path="/patients/:id" element={<PatientDetailPage />} />
         {/* <Route path="/" element={<Ai />} /> */}
       </Route>

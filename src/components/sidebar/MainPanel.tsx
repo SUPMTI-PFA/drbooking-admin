@@ -5,8 +5,8 @@ import { Accordion, AccordionTab, AccordionTabChangeEvent } from 'primereact/acc
 import { AnimatePresence, motion } from 'framer-motion';
 import Doctors from '../doctors/doctors';
 import Patients from '../patients/Patients';
-import { useBaseContext } from '@/contexts/baseContext';
 import Specialities from '../spcialities/specialities';
+import { useBaseContext } from '@/contexts/baseContext';
 
 const animationVariants = {
   initial: { opacity: 0, x: 20 },
@@ -15,12 +15,30 @@ const animationVariants = {
 };
 
 const MainPanel: React.FC = () => {
-  // Detect mobile (adjust breakpoint as needed)
   const { isMobile } = useBaseContext();
 
-  // Track active tab/index for animation
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [activeMobileIndex, setActiveMobileIndex] = useState<number>(0);
+  // Initialize from localStorage or default to 0
+  const [activeIndex, setActiveIndex] = useState<number>(() => {
+    const saved = localStorage.getItem('mainPanelActiveIndex');
+    return saved !== null ? parseInt(saved, 10) : 0;
+  });
+  const [activeMobileIndex, setActiveMobileIndex] = useState<number>(() => {
+    const saved = localStorage.getItem('mainPanelActiveMobileIndex');
+    return saved !== null ? parseInt(saved, 10) : 0;
+  });
+
+  // Handlers that update state and persist
+  const handleDesktopTabChange = (e: TabViewTabChangeEvent) => {
+    const index = e.index;
+    setActiveIndex(index);
+    localStorage.setItem('mainPanelActiveIndex', index.toString());
+  };
+
+  const handleMobileTabChange = (e: AccordionTabChangeEvent) => {
+    const index = e.index as number;
+    setActiveMobileIndex(index);
+    localStorage.setItem('mainPanelActiveMobileIndex', index.toString());
+  };
 
   return (
     <div>
@@ -28,7 +46,7 @@ const MainPanel: React.FC = () => {
         {isMobile ? (
           <Accordion
             activeIndex={activeMobileIndex}
-            onTabChange={(e: AccordionTabChangeEvent) => setActiveMobileIndex(e.index as number)}
+            onTabChange={handleMobileTabChange}
           >
             <AccordionTab header="Doctors">
               <AnimatePresence mode="wait">
@@ -98,7 +116,7 @@ const MainPanel: React.FC = () => {
         ) : (
           <TabView
             activeIndex={activeIndex}
-            onTabChange={(e: TabViewTabChangeEvent) => setActiveIndex(e.index)}
+            onTabChange={handleDesktopTabChange}
             className="mt-4 overflow-auto"
           >
             <TabPanel header="Doctors">
